@@ -6,7 +6,7 @@
       <router-link to="/">HOME</router-link>
       <router-link v-if="!isAdmin">ABOUT</router-link>
       <router-link v-if="!isAdmin">CONTACT</router-link>
-      <router-link v-if="!isAdmin">SUMMARY NEWS</router-link>
+      <router-link to="/summary-news" v-if="!isAdmin">SMART NEWS</router-link>
       <router-link to="/login" v-if="!isAuthenticated">LOGIN</router-link>
       <router-link to="/account" v-if="isAuthenticated & !isAdmin">
         <img src="../../assets/imgs/user.png" alt="icon" />

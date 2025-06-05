@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '../store/auth';
 import Layout from '../layouts/Layout.vue';
 import Home from '../views/Home.vue';
-import LoginRegister from '../views/LoginRegister.vue';
+import LoginRegister from '../views/LoginRegister.vue'; 
+import SummaryNews from '../views/SummaryNews.vue'
 import AddBook from '../views/AddBook.vue';
 
 const routes = [
@@ -21,10 +22,9 @@ const routes = [
                 component: LoginRegister,
             },
             {
-                path: '/admin/add-book',
-                name: 'AddBook',
-                component: AddBook,
-                meta: { requireAuthAdmin: true }
+                path: '/summary-news',
+                name: 'SummaryNews',
+                component: SummaryNews,
             }
         ]
     }

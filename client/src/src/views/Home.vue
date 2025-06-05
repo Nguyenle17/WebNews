@@ -28,6 +28,13 @@
           <option value="jp">Nhật</option>
           <option value="kr">Hàn</option>
         </select>
+
+        <select v-model="filters.lang">
+          <option value="vi">Tiếng Việt</option>
+          <option value="en">Tiếng Anh</option>
+          <option value="ja">Tiếng Nhật</option>
+          <option value="ko">Tiếng Hàn</option>
+        </select>
         <button @click="applyFilters" class="btn-filter">Lọc tin</button>
       </div>
 
@@ -108,7 +115,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .home {
   width: 100%;
   padding-bottom: 40px;
@@ -219,10 +226,14 @@ export default {
 .news-title {
   font-size: 18px;
   color: #180036;
+  font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
   padding: 10px 5px 5px;
-  margin: 0;
-  height: 100px;
+  margin: 0 0 5px 0;
+  max-height: 100px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .news-content {
@@ -333,7 +344,7 @@ export default {
 }
 
 .btn-filter {
-  background:  #43a047;
+  background: #43a047;
   border: none;
   outline: none;
 }

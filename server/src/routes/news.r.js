@@ -10,6 +10,7 @@ export default class NewsRouter {
 
     initRoute() {
         this.router.post('/', this.newsController.getNews)
+        this.router.post('/summary-news', this.newsController.summaryNews)
     }
 
     getRouter() {
