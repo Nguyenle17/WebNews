@@ -19,23 +19,23 @@
         <input
           type="text"
           v-model="filters.keyword"
-          placeholder="Tìm theo từ khóa"
+          placeholder="Search by keyword"
         />
 
         <select v-model="filters.region">
-          <option value="vn">Việt Nam</option>
-          <option value="us">Mỹ</option>
-          <option value="jp">Nhật</option>
-          <option value="kr">Hàn</option>
+          <option value="vn">Vietnam</option>
+          <option value="us">USA</option>
+          <option value="jp">Japan</option>
+          <option value="kr">Korea</option>
         </select>
 
         <select v-model="filters.lang">
-          <option value="vi">Tiếng Việt</option>
-          <option value="en">Tiếng Anh</option>
-          <option value="ja">Tiếng Nhật</option>
-          <option value="ko">Tiếng Hàn</option>
+          <option value="vi">Vietnamese</option>
+          <option value="en">English</option>
+          <option value="ja">Japanese</option>
+          <option value="ko">Korean</option>
         </select>
-        <button @click="applyFilters" class="btn-filter">Lọc tin</button>
+        <button @click="applyFilters" class="btn-filter">Filter News</button>
       </div>
 
       <div class="top-news">
@@ -55,7 +55,7 @@
 
       <div class="pagenation">
         <button class="pre btn-page" @click="page--" :disabled="page <= 1">
-          Pre
+          Previous
         </button>
         <input class="page" v-model.number="page" type="number" />
         <button class="next btn-page" @click="page++">Next</button>
@@ -63,6 +63,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import api from "../utils/api";
@@ -75,7 +76,7 @@ export default {
       num_news: 16,
       news: [],
       filters: {
-        keyword: "tin tức mới nhất",
+        keyword: "hot news",
         region: "vn",
         lang: "vi",
       },
@@ -299,7 +300,7 @@ export default {
 
 .btn-page {
   padding: 8px 16px;
-  width: 80px;
+  width: 100px;
   background: #003cff;
   border: none;
   transition: background 0.4s ease;

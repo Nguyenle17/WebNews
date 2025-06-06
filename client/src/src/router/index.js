@@ -4,8 +4,7 @@ import Layout from '../layouts/Layout.vue';
 import Home from '../views/Home.vue';
 import LoginRegister from '../views/LoginRegister.vue'; 
 import SummaryNews from '../views/SummaryNews.vue'
-import AddBook from '../views/AddBook.vue';
-
+import SummaryContent from '../views/SummaryContent.vue';
 const routes = [
     {
         path: '/',
@@ -25,6 +24,11 @@ const routes = [
                 path: '/summary-news',
                 name: 'SummaryNews',
                 component: SummaryNews,
+            },
+            {
+                path: '/summary-content',
+                name: 'SummaryContent',
+                component: SummaryContent,
             }
         ]
     }

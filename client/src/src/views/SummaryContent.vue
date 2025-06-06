@@ -1,6 +1,6 @@
 <template>
-  <div class="summary-news">
-    <h1 class="title">AI News Summary Center</h1>
+  <div class="summary-content">
+    <h1 class="title">AI Content Summary</h1>
 
     <div class="filters">
       <label for="model-select">Model</label>
@@ -29,32 +29,25 @@
         <option value="ja">Japanese</option>
         <option value="ko">Korean</option>
       </select>
-
-      <input
-        type="text"
-        v-model="filters.keyword"
-        placeholder="Search by keyword"
-      />
-      <button @click="filtersAndSearch" class="btn-filter">
-        Search & Summarize
-      </button>
+      <button @click="filtersAndSearch" class="btn-filter">Summary</button>
     </div>
 
-    <div class="summary-news">
+    <div class="summary">
       <div class="description">
-        <p class="news" v-if="news.length">
-          Summary of <span>{{ this.temp }}</span> from {{ news.length }} recent
-          news articles.
-        </p>
-        <div class="source" v-if="news.length">
-          <p>Sources:</p>
-          <a v-for="n in news" :key="n.position" :href="n.link">{{ n.source }}</a>
-        </div>
-        <p class="content">{{ summaryNews }}</p>
+        <h2>Content</h2>
+        <textarea
+          v-model="filters.content"
+          placeholder="Input your content, and I will summarize it for you."
+          rows="5"
+        ></textarea>
         <div class="loading" v-if="isLoading">
           <div class="circle"></div>
           <p>Processing</p>
         </div>
+        <h2 v-if="summarycontent.length">Smart Summarize</h2>
+        <p class="response" v-if="summarycontent.length">
+          {{ summarycontent }}
+        </p>
       </div>
     </div>
   </div>
@@ -65,17 +58,14 @@
 import api from "../utils/api";
 
 export default {
-  name: "SummaryNews",
+  name: "Summarycontent",
   data() {
     return {
-      summaryNews:
-        "Summarize information from links, keywords, or text you provide using AI.",
-      temp: "",
       isLoading: false,
-      news: [],
+      summarycontent: "",
       filters: {
         models: "deepseek-chat-v3-0324",
-        keyword: "",
+        content: "",
         region: "vn",
         lang: "vi",
       },
@@ -83,30 +73,31 @@ export default {
   },
   methods: {
     async filtersAndSearch() {
-      this.summaryNews = "";
-
+      this.summarycontent = "";
       this.isLoading = true;
-      this.news = [];
+      this.content = [];
       const infor = {
         data: {
-          q: this.filters.keyword,
-          gl: this.filters.region,
+          content: this.filters.content,
           hl: this.filters.lang,
-          num: 5,
-          tbs: "qdr:d",
         },
         models: {
           models: this.filters.models,
         },
       };
-      const response = await api.post("/news/summary-news", infor);
+      const response = await api.post("/summary/", infor);
       this.isLoading = false;
-      this.summaryNews = response.message.content;
-      this.news = response.news;
-      this.temp = this.filters.keyword
-        ? this.filters.keyword
-        : "the latest news";
+      this.summarycontent = response.message.content;
     },
+  },
+  watch: {
+    filters: {
+      content(newValue) {
+        if (newValue.content.trim() === "") {
+          this.summarycontent = "";
+        }
+      },
+    }
   },
 };
 </script>
@@ -187,6 +178,11 @@ label {
   position: relative;
   z-index: 1;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 
 .description::after {
@@ -224,46 +220,42 @@ label {
   gap: 10px;
 }
 
-.news {
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: #ff6347;
-  margin-bottom: 10px;
-}
-
-.content {
-  margin-top: 10px;
+.summary-content textarea {
+  width: 100%;
+  height: auto;
+  padding: 20px;
+  background-color: #f8fafc;
+  border-radius: 8px;
   font-size: 16px;
+  color: #333;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: none;
+  outline: none;
+  min-height: 250px;
+  resize: vertical;
+}
+
+.response {
+  width: 100%;
+  height: auto;
   color: #0f172a;
-  line-height: 1.6;
-}
-.source {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  color: #43a047;
-  font-size: 18px;
-  margin: 0;
+  font-size: 1.1rem;
+  padding: 20px;
+  margin-top: 0;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.source p {
-  margin: 0 0 10px 0;
+.summary-content {
+  height: auto;
+  padding-bottom: 40px;
 }
 
-.source a {
-  text-decoration: none;
-  color: #003cff;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.source a:hover {
-  color: #18008d;
-}
-
-.news span {
-  font-weight: bold;
-  color: #2e7d32;
-  margin: 0 5px;
+.description h2 {
+  font-size: 24px;
+  color: #0f172a;
+  margin: 10px 0 0 0;
+  padding: 0;
 }
 </style>

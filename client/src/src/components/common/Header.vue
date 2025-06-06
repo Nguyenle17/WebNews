@@ -4,8 +4,10 @@
 
     <div class="link-page">
       <router-link to="/">HOME</router-link>
-      <router-link v-if="!isAdmin">ABOUT</router-link>
-      <router-link v-if="!isAdmin">CONTACT</router-link>
+      <router-link to="/summary-content" v-if="!isAdmin"
+        >SMART RECAP</router-link
+      >
+      <router-link to="/analyze" v-if="!isAdmin">INTELLI ANALYSIS</router-link>
       <router-link to="/summary-news" v-if="!isAdmin">SMART NEWS</router-link>
       <router-link to="/login" v-if="!isAuthenticated">LOGIN</router-link>
       <router-link to="/account" v-if="isAuthenticated & !isAdmin">
@@ -13,7 +15,9 @@
         ACCOUNT
       </router-link>
       <router-link to="/admin/add-book" v-if="isAdmin">ADD BOOK</router-link>
-      <router-link to="/admin/update-delete" v-if="isAdmin"> UPDATE OR DELETE BOOK</router-link>
+      <router-link to="/admin/update-delete" v-if="isAdmin">
+        UPDATE OR DELETE BOOK</router-link
+      >
       <a @click="handleLogout" v-if="isAuthenticated">LOGOUT</a>
     </div>
 
