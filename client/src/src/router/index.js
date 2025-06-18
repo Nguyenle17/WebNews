@@ -5,6 +5,8 @@ import Home from '../views/Home.vue';
 import LoginRegister from '../views/LoginRegister.vue'; 
 import SummaryNews from '../views/SummaryNews.vue'
 import SummaryContent from '../views/SummaryContent.vue';
+import WeatherAnalysis from '../views/WeatherAnalysis.vue';
+
 const routes = [
     {
         path: '/',
@@ -29,6 +31,11 @@ const routes = [
                 path: '/summary-content',
                 name: 'SummaryContent',
                 component: SummaryContent,
+            },
+            {
+                path: '/weather-analysis',
+                name: 'WeatherAnalysis',   
+                component: WeatherAnalysis,
             }
         ]
     }

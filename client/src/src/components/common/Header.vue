@@ -7,7 +7,7 @@
       <router-link to="/summary-content" v-if="!isAdmin"
         >SMART RECAP</router-link
       >
-      <router-link to="/analyze" v-if="!isAdmin">INTELLI ANALYSIS</router-link>
+      <router-link to="/weather-analysis" v-if="!isAdmin">WEATHER ANALYSIS</router-link>
       <router-link to="/summary-news" v-if="!isAdmin">SMART NEWS</router-link>
       <router-link to="/login" v-if="!isAuthenticated">LOGIN</router-link>
       <router-link to="/account" v-if="isAuthenticated & !isAdmin">

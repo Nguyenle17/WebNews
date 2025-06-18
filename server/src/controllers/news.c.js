@@ -1,7 +1,6 @@
 
 import OpenAI from 'openai'
 import dotenv from 'dotenv';
-import { InferenceClient } from "@huggingface/inference";
 dotenv.config();
 
 export default class NewsController {

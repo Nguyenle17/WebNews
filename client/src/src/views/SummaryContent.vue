@@ -45,8 +45,7 @@
           <p>Processing</p>
         </div>
         <h2 v-if="summarycontent.length">Smart Summarize</h2>
-        <p class="response" v-if="summarycontent.length">
-          {{ summarycontent }}
+        <p class="response" v-if="summarycontent.length" v-html="summarycontent">
         </p>
       </div>
     </div>
@@ -55,6 +54,7 @@
 
 
 <script>
+import { marked } from "marked";
 import api from "../utils/api";
 
 export default {
@@ -73,21 +73,29 @@ export default {
   },
   methods: {
     async filtersAndSearch() {
-      this.summarycontent = "";
-      this.isLoading = true;
-      this.content = [];
-      const infor = {
-        data: {
-          content: this.filters.content,
-          hl: this.filters.lang,
-        },
-        models: {
-          models: this.filters.models,
-        },
-      };
-      const response = await api.post("/summary/", infor);
-      this.isLoading = false;
-      this.summarycontent = response.message.content;
+      try {
+        this.summarycontent = "";
+        this.isLoading = true;
+        this.content = [];
+        const infor = {
+          data: {
+            content: this.filters.content,
+            hl: this.filters.lang,
+          },
+          models: {
+            models: this.filters.models,
+          },
+        };
+        const response = await api.post("/summary/", infor);
+        this.summarycontent = marked(
+          response.message.content || "No result returned."
+        );
+      } catch {
+        this.summaryNews = "An error occurred while summarizing";
+        console.error(err);
+      } finally {
+        this.isLoading = false;
+      }
     },
   },
   watch: {
@@ -97,7 +105,7 @@ export default {
           this.summarycontent = "";
         }
       },
-    }
+    },
   },
 };
 </script>
@@ -218,6 +226,12 @@ label {
   align-items: center;
   justify-content: center;
   gap: 10px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .summary-content textarea {
