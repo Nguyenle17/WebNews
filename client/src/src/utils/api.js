@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.SERVER_API_URL
+const BASE_URL = import.meta.env.VITE_API_URL
 class Api {
     constructor(BASE_URL) {
         this.token = localStorage.getItem("access_token") || "";
