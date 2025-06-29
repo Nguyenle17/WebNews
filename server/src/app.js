@@ -10,7 +10,7 @@ const app = express()
 app.use(express.urlencoded({ extend: true }));
 app.use(express.json());
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://webnews-q5xw.onrender.com'],
+  origin: ['http://localhost:8080', 'https://webnews-q5xw.onrender.com'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
 }));
