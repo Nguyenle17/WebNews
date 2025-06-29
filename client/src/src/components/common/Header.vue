@@ -4,11 +4,16 @@
 
     <div class="link-page">
       <router-link to="/">HOME</router-link>
+      <router-link to="/summary-news" v-if="!isAdmin">SMART NEWS</router-link>
       <router-link to="/summary-content" v-if="!isAdmin"
         >SMART RECAP</router-link
       >
-      <router-link to="/weather-analysis" v-if="!isAdmin">WEATHER ANALYSIS</router-link>
-      <router-link to="/summary-news" v-if="!isAdmin">SMART NEWS</router-link>
+      <router-link to="/weather-analysis" v-if="!isAdmin"
+        >WEATHER ANALYSIS</router-link
+      >
+      <router-link to="/foodball-analysis" v-if="!isAdmin"
+        >FOOTBALL ANALYSIS</router-link
+      >
       <router-link to="/login" v-if="!isAuthenticated">LOGIN</router-link>
       <router-link to="/account" v-if="isAuthenticated & !isAdmin">
         <img src="../../assets/imgs/user.png" alt="icon" />
@@ -21,12 +26,12 @@
       <a @click="handleLogout" v-if="isAuthenticated">LOGOUT</a>
     </div>
 
-    <div class="search">
+    <!-- <div class="search">
       <button class="btn-search">
         <img src="../../assets/imgs/magnifying-glass.png" alt="icon" />
       </button>
       <input type="text" placeholder="Search..." />
-    </div>
+    </div> -->
   </header>
 </template>
 
@@ -156,5 +161,63 @@ header::after {
 a img {
   height: 16px;
   width: auto;
+}
+
+@media screen and (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 20px;
+    width: 100%;
+  }
+
+  header::after {
+  content: "";
+  top: 0;
+  left: 0;
+  width: calc(100%);
+  height: 100%;
+  z-index: -1;
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 0.5;
+  position: absolute;
+}
+
+
+  .link-page {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 0;
+    width: 100%;
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .search {
+    width: 100%;
+  }
+
+  .search input {
+    width: 100%;
+    padding: 14px 16px 14px 48px;
+    font-size: 15px;
+  }
+
+  .search img {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .btn-search {
+    left: 0;
+  }
+
+  .link-page a {
+    font-size: 16px;
+  }
 }
 </style>

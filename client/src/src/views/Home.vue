@@ -355,4 +355,95 @@ export default {
   border: none;
   outline: none;
 }
+
+@media screen and (max-width: 768px) {
+  .introduction h1 {
+    font-size: 28px;
+    padding: 30px 20px;
+  }
+
+  .cta-button {
+    margin: 20px 20px 0;
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+
+  .info-text {
+    margin: 10px 20px;
+    font-size: 14px;
+  }
+
+  .title-top-news {
+    font-size: 28px;
+    margin-top: 20px;
+  }
+
+  .container-news {
+    margin: 0 10px;
+    padding: 10px 5px;
+  }
+
+  .top-news {
+    grid-template-columns: repeat(1, 1fr);
+    padding: 10px;
+    gap: 16px;
+  }
+
+  .news {
+    height: auto;
+  }
+
+  .news img {
+    height: 180px;
+  }
+
+  .news-title {
+    font-size: 16px;
+  }
+
+  .news-content {
+    font-size: 13px;
+  }
+
+  .news a {
+    font-size: 16px;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .filters input,
+  .filters select {
+    font-size: 14px;
+    width: 100%;
+  }
+
+  .btn-filter {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .pagenation {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding-top: 10px;
+  }
+
+  .btn-page {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .page {
+    width: 60px;
+    text-align: center;
+    padding: 4px;
+    font-size: 14px;
+  }
+}
 </style>

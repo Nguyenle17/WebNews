@@ -6,7 +6,7 @@ export default class WeatherController {
         this.apiKey = process.env.WEATHER_API_KEY;
         this.openai = new OpenAI({
             baseURL: "https://openrouter.ai/api/v1",
-            apiKey: process.env.API_KEY,
+            apiKey: process.env.API_KEY_2,
         });
     }
 
