@@ -54,7 +54,7 @@ export default class UserController {
             res.cookie("token", accessToken, {
                 httpOnly: true,
                 secure: true,
-                sameSite: 'Strict',
+                sameSite: 'None',
                 maxAge: 24 * 60 * 60 * 1000
             });
 
