@@ -111,15 +111,15 @@
         <img src="../assets/imgs/location.png" alt="location" />
       </div>
 
-      <div class="input-form">
+      <!-- <div class="input-form">
         <input
           type="file"
           id="avatar"
           name="avatar"
           @change="handleFileUpload"
         />
-        <label for="avatar">Avatar</label>
-      </div>
+        <label fo="avatar">Avatar</label>
+      </div> -->
 
       <div class="btn">
         <button type="submit">
@@ -162,9 +162,12 @@ export default {
       const data = new FormData();
       data.append("email", this.email);
       data.append("password", this.password);
-      const result = await Api.post("/auth/login", data);
-      localStorage.setItem("access_token", result.token);
+      const result = await Api.post("/user/auth/login", data);
       if (result.status === "success") {
+        const data = await Api.get("/user/info");
+        if (data.user) {
+          localStorage.setItem("user", JSON.stringify(data.user));
+        }
         window.location.href = "/";
       } else {
         this.error = result.message;
@@ -174,13 +177,13 @@ export default {
       const data = new FormData();
       data.append("email", this.email);
       data.append("password", this.password);
-      data.append("full_name", this.fullName);
+      data.append("fullname", this.fullName);
       data.append("phone", this.phone);
       data.append("address", this.address);
       data.append("role", "user");
       data.append("avatar", null);
 
-      const result = await Api.post("/auth/register", data);
+      const result = await Api.post("/user/auth/register", data);
       if (result.status === "success") {
         window.location.href = "/";
       } else {

@@ -13,6 +13,25 @@
       </p>
     </div>
 
+    <h1 class="title-top-news" ref="topNews" v-if="authenticate">
+      SUGGESTIONS
+    </h1>
+    <div class="suggestion" v-if="authenticate">
+      <div class="news" v-for="n in suggestionNews" :key="n.position">
+        <img v-if="n.imageUrl" :src="n.imageUrl" :alt="n.title" />
+        <img v-if="!n.imageUrl" src="../assets/imgs/image.png" alt="">
+        <div class="information-news">
+          <h2 class="news-title">{{ n.title }}</h2>
+          <p class="news-content">{{ n.snippet }}</p>
+        </div>
+        <div class="source-time">
+          <p class="news-source">{{ n.source }}</p>
+          <p class="news-time">{{ n.date }}</p>
+        </div>
+        <a :href="n.link" target="_blank">View detail</a>
+      </div>
+    </div>
+
     <h1 class="title-top-news" ref="topNews">NEWS</h1>
     <div class="container-news">
       <div class="filters">
@@ -40,16 +59,17 @@
 
       <div class="top-news">
         <div class="news" v-for="n in news" :key="n.position">
-          <img :src="n.imageUrl" :alt="n.title" />
+          <img :src="n.imageUrl || '../assets/imgs/image.png'" :alt="n.title" />
           <div class="information-news">
             <h2 class="news-title">{{ n.title }}</h2>
             <p class="news-content">{{ n.snippet }}</p>
           </div>
+          khd
           <div class="source-time">
             <p class="news-source">{{ n.source }}</p>
             <p class="news-time">{{ n.date }}</p>
           </div>
-          <a :href="n.link">View detail</a>
+          <a :href="n.link" target="_blank">View detail</a>
         </div>
       </div>
 
@@ -66,23 +86,46 @@
 
 
 <script>
-import api from "../utils/api";
+import Api from "../utils/api";
+import { useAuthStore } from "../store/auth";
 
 export default {
   name: "Home",
   data() {
     return {
+      authenticate: false,
+      interests: [],
+      suggestionNews: [],
       page: 1,
       num_news: 16,
       news: [],
       filters: {
-        keyword: "hot news",
+        keyword: "tin tức nóng",
         region: "vn",
         lang: "vi",
       },
     };
   },
   methods: {
+    getRandomInterests(arr) {
+      const shuffled = arr.sort(() => 0.5 - Math.random());
+      const count = Math.floor(Math.random() * 2) + 1;
+      return shuffled.slice(0, count);
+    },
+    async fetchData() {
+      const authStore = useAuthStore();
+      this.authenticate = authStore.isAuthenticated;
+      const interestsData = await Api.get("/user/getInterest");
+      this.interests = interestsData.data;
+      if (this.authenticate) {
+        const selected = this.getRandomInterests(this.interests);
+        const data = {
+          q: `${selected[0]?.content} ${selected[1]?.content} site:vnexpress.net`,
+        };
+        const response = await Api.post("/news/", data);
+        this.suggestionNews = response.news;
+      }
+    },
     async getNews() {
       const news_start = (this.page - 1) * this.num_news;
       const data = {
@@ -92,7 +135,7 @@ export default {
         num: this.num_news,
         page: this.page - 1,
       };
-      const response = await api.post("/news/", data);
+      const response = await Api.post("/news/", data);
       this.news = response.news;
     },
 
@@ -107,6 +150,7 @@ export default {
   },
   mounted() {
     this.getNews();
+    this.fetchData();
   },
   watch: {
     page(newPage) {
@@ -173,6 +217,14 @@ export default {
   text-align: center;
   font-size: 36px;
   color: #180036;
+  padding-top: 30px;
+}
+
+.suggestion {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 36px;
 }
 
 .top-news {
@@ -219,7 +271,7 @@ export default {
 .news img {
   width: 100%;
   height: 200px;
-  object-fit: cover;
+  object-fit: contain;
   border-bottom: 1px solid #eee;
   transition: opacity 0.4s ease;
 }

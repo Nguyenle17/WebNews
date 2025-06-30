@@ -1,4 +1,5 @@
-const BASE_URL = import.meta.env.VITE_API_URL
+// const BASE_URL = 'http://localhost:8081/api'
+const BASE_URL = import.meta.env.VITE_API_URL;
 class Api {
     constructor(BASE_URL) {
         this.token = localStorage.getItem("access_token") || "";
@@ -10,6 +11,7 @@ class Api {
         try {
             const response = await fetch(NEW_URL, {
                 method: 'GET',
+                credentials: 'include',
                 headers: {
                     'Authorization': `Bearer ${this.token}`,
                 }
@@ -29,6 +31,7 @@ class Api {
 
             const response = await fetch(NEW_URL, {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     ...(isFormData ? {
                         'Authorization': `Bearer ${this.token}`,
@@ -55,6 +58,7 @@ class Api {
 
             const response = await fetch(NEW_URL, {
                 method: "PUT",
+                credentials: 'include',
                 headers: {
                     ...(isFormData ? {
                         'Authorization': `Bearer ${this.token}`,
@@ -78,6 +82,7 @@ class Api {
         try {
             const response = await fetch(NEW_URL, {
                 method: 'DELETE',
+                credentials: 'include',
                 headers: {
                     'Authorization': `Bearer ${this.token}`,
                 }

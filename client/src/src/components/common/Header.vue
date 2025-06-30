@@ -19,9 +19,8 @@
         <img src="../../assets/imgs/user.png" alt="icon" />
         ACCOUNT
       </router-link>
-      <router-link to="/admin/add-book" v-if="isAdmin">ADD BOOK</router-link>
       <router-link to="/admin/update-delete" v-if="isAdmin">
-        UPDATE OR DELETE BOOK</router-link
+        UPDATE OR DELETE</router-link
       >
       <a @click="handleLogout" v-if="isAuthenticated">LOGOUT</a>
     </div>
@@ -45,7 +44,7 @@ export default {
     handleLogout() {
       const authStore = useAuthStore();
       authStore.logout();
-      window.location.reload();
+      window.location.href = '/';
     },
   },
   setup() {

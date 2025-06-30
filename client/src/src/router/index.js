@@ -2,10 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '../store/auth';
 import Layout from '../layouts/Layout.vue';
 import Home from '../views/Home.vue';
-import LoginRegister from '../views/LoginRegister.vue'; 
+import LoginRegister from '../views/LoginRegister.vue';
 import SummaryNews from '../views/SummaryNews.vue'
 import SummaryContent from '../views/SummaryContent.vue';
 import WeatherAnalysis from '../views/WeatherAnalysis.vue';
+import PersonalPage from '../views/Personal/PersonalPage.vue';
 
 const routes = [
     {
@@ -34,8 +35,14 @@ const routes = [
             },
             {
                 path: '/weather-analysis',
-                name: 'WeatherAnalysis',   
+                name: 'WeatherAnalysis',
                 component: WeatherAnalysis,
+            },
+            {
+                path: '/account',
+                name: 'PersonalPage',
+                component: PersonalPage,
+                meta: { authenticate: true }
             }
         ]
     }
@@ -50,7 +57,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
     const authStore = useAuthStore();
     authStore.init();
-    if (to.meta.requireAuth && !authStore.checkToken()) {
+    if (to.meta.requireAuth && !authStore.checkLogin()) {
         return next({ name: "login" });
     }
 
