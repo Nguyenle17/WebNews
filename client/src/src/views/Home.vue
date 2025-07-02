@@ -13,13 +13,17 @@
       </p>
     </div>
 
-    <h1 class="title-top-news" ref="topNews" v-if="authenticate">
+    <h1
+      class="title-top-news"
+      ref="topNews"
+      v-if="authenticate && suggestionNews.length"
+    >
       SUGGESTIONS
     </h1>
     <div class="suggestion" v-if="authenticate">
       <div class="news" v-for="n in suggestionNews" :key="n.position">
         <img v-if="n.imageUrl" :src="n.imageUrl" :alt="n.title" />
-        <img v-if="!n.imageUrl" src="../assets/imgs/image.png" alt="">
+        <img v-if="!n.imageUrl" src="../assets/imgs/image.png" alt="" />
         <div class="information-news">
           <h2 class="news-title">{{ n.title }}</h2>
           <p class="news-content">{{ n.snippet }}</p>
@@ -100,27 +104,26 @@ export default {
       num_news: 16,
       news: [],
       filters: {
-        keyword: "tin tức nóng",
+        keyword: "tin tức nổi bật",
         region: "vn",
         lang: "vi",
       },
     };
   },
   methods: {
-    getRandomInterests(arr) {
-      const shuffled = arr.sort(() => 0.5 - Math.random());
-      const count = Math.floor(Math.random() * 2) + 1;
-      return shuffled.slice(0, count);
-    },
     async fetchData() {
       const authStore = useAuthStore();
       this.authenticate = authStore.isAuthenticated;
       const interestsData = await Api.get("/user/getInterest");
       this.interests = interestsData.data;
+      const selected = this.interests;
       if (this.authenticate) {
-        const selected = this.getRandomInterests(this.interests);
         const data = {
-          q: `${selected[0]?.content} ${selected[1]?.content} site:vnexpress.net`,
+          q: selected.map((item) => item.content).join(" OR "),
+          gl: this.filters.region,
+          hl: this.filters.lang,
+          num: 20,
+          tbs: "qdr:w",
         };
         const response = await Api.post("/news/", data);
         this.suggestionNews = response.news;
@@ -142,6 +145,7 @@ export default {
     async applyFilters() {
       this.page = 1;
       await this.getNews();
+      await this.fetchData();
     },
 
     scrollToNews() {
@@ -435,6 +439,7 @@ export default {
     padding: 10px 5px;
   }
 
+  .suggestion,
   .top-news {
     grid-template-columns: repeat(1, 1fr);
     padding: 10px;
