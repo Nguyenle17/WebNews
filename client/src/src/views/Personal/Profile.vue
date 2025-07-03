@@ -114,7 +114,7 @@ export default {
       this.email = authStore.email;
       this.phone = authStore.phone;
       this.address = authStore.address;
-      const interestsData = await Api.get("/user/getInterest");
+      const interestsData = await Api.get("/user/interest");
       this.interests = interestsData.data;
     },
     onFileChange(event) {
@@ -159,14 +159,14 @@ export default {
     async addInterest() {
       const input = this.interestInput.trim();
       if (input && !this.interests.includes(input)) {
-        const result = await Api.put("/user/addInterest", { content: input });
+        const result = await Api.put("/user/interest", { content: input });
         const data = result.data;
         if (result) this.interests.push({ id: data.id, content: data.content });
       }
       this.interestInput = "";
     },
     async removeInterest(index, id) {
-      const result = await Api.delete(`/user/removeInterest/${id}`);
+      const result = await Api.delete(`/user/remove-interest/${id}`);
       if (result) this.interests.splice(index, 1);
     },
   },

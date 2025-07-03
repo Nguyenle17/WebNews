@@ -14,10 +14,10 @@ export default class UserRouter {
         this.router.post('/auth/login', this.userController.login)
         this.router.use('/', authenticate)
         this.router.get('/info', this.userController.getUser)
-        this.router.get('/getInterest', this.userController.getInterests)
-        this.router.put('/addInterest', this.userController.addInterest)
+        this.router.get('/interest', this.userController.getInterests)
+        this.router.put('/interest', this.userController.addInterest)
         this.router.put('/update', this.userController.updateUser)
-        this.router.delete('/removeInterest/:id', this.userController.deleteInterst)
+        this.router.delete('/remove-interest/:id', this.userController.deleteInterst)
     }
 
     getRouter() {

@@ -114,7 +114,7 @@ export default {
     async fetchData() {
       const authStore = useAuthStore();
       this.authenticate = authStore.isAuthenticated;
-      const interestsData = await Api.get("/user/getInterest");
+      const interestsData = await Api.get("/user/interest");
       this.interests = interestsData.data;
       const selected = this.interests;
       if (this.authenticate) {
